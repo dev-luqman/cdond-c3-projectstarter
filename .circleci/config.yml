@@ -43,14 +43,16 @@ jobs:
       - run: cd ./frontend
       - run: ls
       - run:
-          name: Build front-end
+          name: Install front-end Package
           command: |
             cd frontend && npm i
-            cd frontend && npm run build
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
-      - run: cd frontend && npm run build
+      - run:
+          name: Build front-end
+          command: |
+            cd frontend && npm run build
 
   build-backend:
     docker:
@@ -60,13 +62,16 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
-          name: Back-end build
+          name: Install Back-end Packages
           command: |
-            cd backend && npm install
+            cd backend && npm i
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-      - run: ls 
+      - run:
+          name: Back-end build
+          command: |
+            cd backend && npm run build
 workflows:
   default:
     jobs:
