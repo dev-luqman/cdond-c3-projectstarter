@@ -73,7 +73,7 @@ jobs:
           name: Build Back-end
           command: |
             cd backend
-            nom run build
+            npm run build
 workflows:
   default:
     jobs:
