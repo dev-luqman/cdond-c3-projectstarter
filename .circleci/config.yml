@@ -121,12 +121,12 @@ jobs:
       - slack/notify:
           channel: circlecialert
           event: fail
-          mentions: '@Balogun'
+          mentions: @Balogun
           template: basic_fail_1
       - slack/notify:
           channel: circlecialert
           event: pass
-          mentions: '@Balogun'
+          mentions: @Balogun
           template: success_tagged_deploy_1
 
   scan-backend:
