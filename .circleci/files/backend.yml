@@ -35,9 +35,9 @@ Resources:
         - Key: Name
           Value: !Sub backend-${ID}
 
-Outputs: 
-    InstanceDNSName: 
-        Description: A reference to the created EC2 url
-        Value: !Sub ${EC2Instance.DNSName}
-        Export:
-          Name: EC2InstanceDNSName
+# Outputs: 
+#     InstanceDNSName: 
+#         Description: A reference to the created EC2 url
+#         Value: !Sub ${EC2Instance.DNSName}
+#         Export:
+#           Name: EC2InstanceDNSName
