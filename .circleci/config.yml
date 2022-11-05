@@ -169,24 +169,24 @@ jobs:
               --tags project=udapeople \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"  \
               --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7} 
-      - run:
-          name: Ensure front-end infrastructure exist
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
-              --tags project=udapeople \
-              --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="{CIRCLE_WORKFLOW_ID:0:7}"
-      - run: ls 
-      - run:
-          name: Add back-end ip to ansible inventory
-          command: |
-            aws cloudformation list-exports \
-             --query "Exports[?Name==\`EC2InstanceDNSName\`].Value" --no-paginate --output text > project/.circleci/ansible/inventory.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt
+      # - run:
+      #     name: Ensure front-end infrastructure exist
+      #     command: |
+      #       aws cloudformation deploy \
+      #         --template-file .circleci/files/frontend.yml \
+      #         --tags project=udapeople \
+      #         --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
+      #         --parameter-overrides ID="{CIRCLE_WORKFLOW_ID:0:7}"
+      # - run: ls 
+      # - run:
+      #     name: Add back-end ip to ansible inventory
+      #     command: |
+      #       aws cloudformation list-exports \
+      #        --query "Exports[?Name==\`EC2InstanceDNSName\`].Value" --no-paginate --output text > project/.circleci/ansible/inventory.txt
+      # - persist_to_workspace:
+      #     root: ~/
+      #     paths:
+      #       - project/.circleci/ansible/inventory.txt
       # - destroy-environment:
       #     id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       # - destroy-environment:
