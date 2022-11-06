@@ -182,8 +182,12 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             aws cloudformation list-exports \
-             --query "Exports[?Name==\`EC2InstanceDNSName\`].Value" --no-paginate --output text > ~/textfile.txt
+             --query "Exports[?Name==\`EC2InstanceDNSName\`].Value" --no-paginate --output text > .circleci/ansible/inventory.txt
       - run: cat .circleci/ansible/inventory.txt
+      - run:
+          name: Install tar utility
+          command: |
+            yum install -y tar gzip
       - persist_to_workspace:
           root: ~/
           paths:
