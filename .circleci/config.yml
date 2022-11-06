@@ -188,6 +188,7 @@ jobs:
           name: Install tar utility
           command: |
             yum install -y tar gzip
+      - run: cd ~/
       - persist_to_workspace:
           root: ~/
           paths:
