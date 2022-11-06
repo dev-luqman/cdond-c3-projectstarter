@@ -38,7 +38,6 @@ Resources:
 Outputs: 
     InstanceDNSName: 
         Description: A reference to the created EC2 url
-        # Value: !GetAtt EC2Instance.DNSName
-        Value: !GetAtt EC2Instance
+        Value: !GetAtt EC2Instance.PublicIp
         Export:
           Name: EC2InstanceDNSName
