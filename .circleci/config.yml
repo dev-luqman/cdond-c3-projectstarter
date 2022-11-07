@@ -228,7 +228,6 @@ jobs:
       #     name: Configure server
       #     command: |
       #     ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
-      - run: exit 1
       # Here's where you will add some code to rollback on 
       - destroy-environment:
           id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
