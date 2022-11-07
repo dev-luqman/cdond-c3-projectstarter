@@ -215,10 +215,10 @@ jobs:
           command: |
             apk add --update ansible 
             apk add --update ansible openssh
-      - run:
-          name: Configure server
-          command: |
-          ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
+      # - run:
+      #     name: Configure server
+      #     command: |
+      #     ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
       - run: exit 1
       # Here's where you will add some code to rollback on 
       - destroy-environment:
