@@ -216,10 +216,13 @@ jobs:
             apk add --update ansible 
             apk add --update ansible openssh
    
+      - run: ls
       - run:
           name: Configure server
           command: |
-            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
+            cd .circleci/ansible
+            ls
+            ansible-playbook -i inventory.txt configure-server.yml
       #Here's where you will add some code to rollback on 
       - run: 
           name: Install Aws-Cli
