@@ -222,6 +222,7 @@ jobs:
           command: |
             cd .circleci/ansible
             ls
+            chmod 744 inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       #Here's where you will add some code to rollback on 
       - run: 
@@ -239,7 +240,7 @@ jobs:
       - destroy-environment:
           id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}failure  
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
   default:
