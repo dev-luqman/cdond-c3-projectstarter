@@ -208,8 +208,8 @@ jobs:
           fingerprints: 
             - "08:b9:8b:c4:40:76:3e:95:8c:98:44:2d:75:ec:10:bf"
       # attach workspace
-      # - attach_workspace:
-      #     at: ~/
+      - attach_workspace:
+          at: ~/
       - run: cat .circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
@@ -222,9 +222,10 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
+            cp inventory.txt inventory
             chmod 744 inventory.txt
-            cat inventory.txt
-            ansible-playbook -i inventory.txt configure-server.yml
+            cat inventory
+            ansible-playbook -i inventory configure-server.yml
       #Here's where you will add some code to rollback on 
       - run: 
           name: Install Aws-Cli
