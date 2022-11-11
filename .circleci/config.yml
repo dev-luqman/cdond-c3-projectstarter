@@ -34,6 +34,14 @@ commands:
             fi
             
 jobs:
+
+  add_ssh_to_job: 
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:   ["4a:e1:27:2d:e3:17:ed:eb:33:6f:92:b0:19:91:fe:73"]
   build-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -268,24 +276,25 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-          # context: slack-secrets
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure
+      - add_ssh_to_job
+      # - build-frontend
+      # - build-backend
+      # - test-frontend:
+      #     requires: [build-frontend]
+      # - test-backend:
+      #     requires: [build-backend]
+      # - scan-backend:
+      #     requires: [build-backend]
+      #     # context: slack-secrets
+      # - scan-frontend:
+      #     requires: [build-frontend]
+      # - deploy-infrastructure
           # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           # filters:
           #   branches:
           #     only: [test-feature-branch]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
