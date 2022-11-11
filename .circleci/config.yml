@@ -34,14 +34,15 @@ commands:
             fi
             
 jobs:
-
   add_ssh_to_job: 
     docker:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints:   ["4a:e1:27:2d:e3:17:ed:eb:33:6f:92:b0:19:91:fe:73"]
+          fingerprints: ["4a:e1:27:2d:e3:17:ed:eb:33:6f:92:b0:19:91:fe:73"]
+
+
   build-frontend:
     docker:
       - image: circleci/node:13.8.0
