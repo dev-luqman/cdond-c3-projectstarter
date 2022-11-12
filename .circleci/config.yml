@@ -194,11 +194,10 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      # - run: exit 1
-      # - destroy-environment:
-      #     id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
-      # - destroy-environment:
-      #     id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+      - destroy-environment:
+          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
+      - destroy-environment:
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
   configure-infrastructure:
     docker:
@@ -210,25 +209,8 @@ jobs:
       # attach workspace
       - attach_workspace:
           at: ~/
-      - run: cat .circleci/ansible/inventory.txt
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible 
-            apk add --update ansible openssh
-   
-      - run: ls
-      - run:
-          name: Configure server
-          command: |
-            cd .circleci/ansible
-            cp inventory.txt inventory
-            chmod 744 inventory.txt
-            cat inventory
-            ansible-playbook -i inventory configure-server.yml
-      #Here's where you will add some code to rollback on 
       - run: 
-          name: Install Aws-Cli
+          name: Install Aws-Cli # For destroy stack command if error
           command: |
             apk add --no-cache \
             python3 \
@@ -238,6 +220,20 @@ jobs:
                 awscli \
             && rm -rf /var/cache/apk/*
             aws --version
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible 
+            apk add --update ansible openssh
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible
+            cp inventory.txt inventory
+            ls
+            cat inventory
+            ansible-playbook -i inventory configure-server.yml
+      #Here's where you will add some code to rollback on 
       - run: exit 1
       - destroy-environment:
           id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
