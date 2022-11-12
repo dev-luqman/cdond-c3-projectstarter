@@ -75,6 +75,7 @@ jobs:
           command: |
             cd backend
             npm run build
+            
   test-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -268,7 +269,6 @@ jobs:
 workflows:
   default:
     jobs:
-      - add_ssh_to_job
       - build-frontend
       - build-backend
       - test-frontend:
