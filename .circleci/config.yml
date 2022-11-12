@@ -246,7 +246,7 @@ jobs:
       - restore_cache:
           keys: [backend-build]
 
-      - run: npm install -g aws-cli # for destroy stack when error
+      - run: npm install -g aws-cdk # for destroy stack when error
       - run: aws --version
       - run:
           name: Run migrations
@@ -293,7 +293,11 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
-            # your code here
+            cd frontend
+            npm install
+            npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       # Here's where you will add some code to rollback on failure
       - run: exit 1
       - destroy-environment:
