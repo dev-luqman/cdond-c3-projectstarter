@@ -246,8 +246,8 @@ jobs:
       - restore_cache:
           keys: [backend-build]
 
-      - run: npm install -g aws-cdk # for destroy stack when error
-      - run: aws --version
+      # - run: npm install -g aws-cdk # for destroy stack when error
+      # - run: aws --version
       - run:
           name: Run migrations
           command: |
@@ -299,7 +299,6 @@ jobs:
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       # Here's where you will add some code to rollback on failure
-      - run: exit 1
       - destroy-environment:
           id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
