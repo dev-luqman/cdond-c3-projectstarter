@@ -245,6 +245,9 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
+
+      - run: npm install -g aws-cli # for destroy stack when error
+      - run: aws --version
       - run:
           name: Run migrations
           command: |
