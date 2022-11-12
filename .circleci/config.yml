@@ -219,7 +219,6 @@ jobs:
             && pip3 install --no-cache-dir \
                 awscli \
             && rm -rf /var/cache/apk/*
-            aws --version
       - run:
           name: Install dependencies
           command: |
@@ -234,7 +233,6 @@ jobs:
             cat inventory
             ansible-playbook -i inventory configure-server.yml
       #Here's where you will add some code to rollback on 
-      - run: exit 1
       - destroy-environment:
           id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
@@ -245,6 +243,16 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      - run: 
+          name: Install Aws-Cli # For destroy stack command if error
+          command: |
+            apk add --no-cache \
+            python3 \
+            py3-pip \
+            && pip3 install --upgrade pip \
+            && pip3 install --no-cache-dir \
+                awscli \
+            && rm -rf /var/cache/apk/*
       - run:
           name: Run migrations
           command: |
@@ -260,7 +268,12 @@ jobs:
               # If you are using kvdb.io, generate the bucket ID "9GE4jRtKznmVKRfvdBABBe" in your local terminal first
               curl https://kvdb.io/WXYfE8x6ATuBiPjy2P2upo/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
-     # Here's where you will add some code to rollback on failure  
+     # Here's where you will add some code to rollback on failure 
+      - run: exit 1
+      - destroy-environment:
+          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
+      - destroy-environment:
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
   default:
