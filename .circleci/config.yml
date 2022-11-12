@@ -265,7 +265,20 @@ jobs:
               curl https://kvdb.io/WXYfE8x6ATuBiPjy2P2upo/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
      # Here's where you will add some code to rollback on failure
-      - run: npm install -g aws-cli
+      - run: 
+          name: innstall aws cli with pythonn
+          command: |
+            apt-get update && \
+            apt-get install -y \
+            python3 \
+            python3-pip \
+            python3-setuptools \
+            groff \
+            less \
+            && pip3 install --upgrade pip \
+            && apt-get clean
+
+      - run: pip3 --no-cache-dir install --upgrade awscli
       - destroy-environment:
           id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
