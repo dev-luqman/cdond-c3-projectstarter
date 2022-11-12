@@ -241,18 +241,9 @@ jobs:
   run-migrations:
     docker:
       - image: circleci/node:13.8.0
+      - image: amazon/aws-cli # destroy stack image for rollback
     steps:
       - checkout
-      - run: 
-          name: Install Aws-Cli # For destroy stack command if error
-          command: |
-            apk add --no-cache \
-            python3 \
-            py3-pip \
-            && pip3 install --upgrade pip \
-            && pip3 install --no-cache-dir \
-                awscli \
-            && rm -rf /var/cache/apk/*
       - run:
           name: Run migrations
           command: |
@@ -275,6 +266,28 @@ jobs:
       - destroy-environment:
           id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
+
+  deploy-frontend:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout 
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+      - run:
+          name: Get backend url
+          command: |
+            export BACKEND_API = $(aws cloudformation list-exports \
+             --query "Exports[?Name==\`EC2InstanceDNSName\`].Value" --no-paginate --output text)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+      - run:
+          name: Deploy frontend objects
+          command: |
+            # your code here
+      # Here's where you will add some code to rollback on failure  
 workflows:
   default:
     jobs:
