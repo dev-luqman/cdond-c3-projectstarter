@@ -298,7 +298,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            export BACKEND_API = $(aws cloudformation list-exports \
+            export BACKEND_API=$(aws cloudformation list-exports \
              --query "Exports[?Name==\`EC2InstanceDNSName\`].Value" --no-paginate --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
