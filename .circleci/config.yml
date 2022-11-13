@@ -300,7 +300,7 @@ jobs:
           command: |
             export BACKEND_API=$(aws cloudformation list-exports \
              --query "Exports[?Name==\`EC2InstanceDNSName\`].Value" --no-paginate --output text)
-            export API_URL="http://${BACKEND_IP}:3030"
+            export API_URL="http://${BACKEND_API}:3030"
             echo "${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
             cat frontend/.env
