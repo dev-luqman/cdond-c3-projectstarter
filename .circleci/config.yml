@@ -292,7 +292,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            # your code here
+            yum install -y tar gzip
+            curl --silent --location https://rpm.nodesource.com/setup_10.x | bash -
+            yum -y install nodejs
       - run:
           name: Get backend url
           command: |
@@ -336,10 +338,11 @@ workflows:
           #     only: [test-feature-branch]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      # - deploy-frontend:
-      #     requires: [run-migrations]
+      # - run-migrations:
+      #     requires: [configure-infrastructure]
+      - deploy-frontend:
+          # requires: [run-migrations]
+          requires: [deploy-infrastructure] # ! plear remove later
       # - deploy-backend:
       #     requires: [run-migrations]
       # - smoke-test:
