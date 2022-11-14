@@ -335,7 +335,7 @@ jobs:
       - attach_workspace:
           at: ~/
       - run: 
-          name: Install Aws-Cli # For destroy stack command if error
+          name: Install Aws-Cli # For destroy stack command if error found
           command: |
             apk add --no-cache \
             python3 \
