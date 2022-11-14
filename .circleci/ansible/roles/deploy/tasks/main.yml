@@ -32,13 +32,23 @@
     production: yes
     state: present
 
-# - name: "create a web directory"
-#   shell: mkdir ~/web
+- name: "create a web directory"
+  shell: mkdir $HOME/webs
 
-# - name: "Copy File to our Web Dir."
-#   copy:
-#     src: index.js
-#     dest: ~/web/index.js
+- name: "Copy File to our Web Dir."
+  copy:
+    src: ../../../../artifact.tar.gz
+    dest: ~/webs/
 
-# - name: "Run application with pm2"
-#   command: pm2 start ~/web/index.js -f
+- name: "Unarchive backend"
+  unarchive:
+    src: ~/webs/artifact.tar.gz
+    dest: $HOME/webs
+    remote_src: yes
+
+- name: "Run application with pm2"
+  shell: |
+      cd ~web
+      npm install
+      pm2 stop default 
+      pm2 start npm -- start

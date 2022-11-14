@@ -220,7 +220,7 @@ jobs:
                 awscli \
             && rm -rf /var/cache/apk/*
       - run:
-          name: Install dependencies
+          name: Install dependencies - ansible && openssh
           command: |
             apk add --update ansible 
             apk add --update ansible openssh
@@ -314,17 +314,65 @@ jobs:
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
       - run:
-          name: ls folder dir
-          command: |
-            cd frontend
-            npm install
-            ls
-      - run:
           name: Expose Frontend url (S3-bucket-url)
           command: |
             aws cloudformation list-exports \
              --query "Exports[?Name==\`WebsiteURL\`].Value" --no-paginate --output text 
       # Here's where you will add some code to rollback on failure
+      - destroy-environment:
+          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
+      - destroy-environment:
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+
+  deploy-backend:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+        fingerprints:   ["78:b1:a0:5b:7e:ef:a7:26:a2:ed:34:cf:cf:fb:11:eb"]
+      # attach workspace
+      - attach_workspace:
+          at: ~/
+      - run: 
+          name: Install Aws-Cli # For destroy stack command if error
+          command: |
+            apk add --no-cache \
+            python3 \
+            py3-pip \
+            && pip3 install --upgrade pip \
+            && pip3 install --no-cache-dir \
+                awscli \
+            && rm -rf /var/cache/apk/*
+      - run:
+          name: Install dependencies - ansible && openssh
+          command: |
+            apk add --update ansible 
+            apk add --update ansible openssh
+      - run:
+          name: Installing tar & gzip for zipping of file
+          command: |
+            apk add --update tar gzip 
+      - run:
+          name: Install Node and npm
+          command: |
+            apk add --update nodejs nodejs-npm
+      - run:
+          name: Deploy backend
+          command: |
+            cd backend
+            npm i
+            npm run build
+            cd ..
+            # Zip the directory
+            tar -C backend -czvf artifact.tar.gz .
+            cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cp inventory.txt inventory
+            ls
+            cat inventory
+            ansible-playbook -i inventory deploy-backend.yml
+      # Here's where you will add some code to rollback on failure  
       - destroy-environment:
           id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
