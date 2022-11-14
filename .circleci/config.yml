@@ -329,26 +329,26 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
-      # - add_ssh_keys:
-      #   fingerprints:   ["78:b1:a0:5b:7e:ef:a7:26:a2:ed:34:cf:cf:fb:11:eb"]
-      # # attach workspace
-      # - attach_workspace:
-      #     at: ~/
-      # - run: 
-      #     name: Install Aws-Cli # For destroy stack command if error
-      #     command: |
-      #       apk add --no-cache \
-      #       python3 \
-      #       py3-pip \
-      #       && pip3 install --upgrade pip \
-      #       && pip3 install --no-cache-dir \
-      #           awscli \
-      #       && rm -rf /var/cache/apk/*
-      # - run:
-      #     name: Install dependencies - ansible && openssh
-      #     command: |
-      #       apk add --update ansible 
-      #       apk add --update ansible openssh
+      - add_ssh_keys:
+        fingerprints:   ["78:b1:a0:5b:7e:ef:a7:26:a2:ed:34:cf:cf:fb:11:eb"]
+      # attach workspace
+      - attach_workspace:
+          at: ~/
+      - run: 
+          name: Install Aws-Cli # For destroy stack command if error
+          command: |
+            apk add --no-cache \
+            python3 \
+            py3-pip \
+            && pip3 install --upgrade pip \
+            && pip3 install --no-cache-dir \
+                awscli \
+            && rm -rf /var/cache/apk/*
+      - run:
+          name: Install dependencies - ansible && openssh
+          command: |
+            apk add --update ansible 
+            apk add --update ansible openssh
       # - run:
       #     name: Installing tar & gzip for zipping of file
       #     command: |
