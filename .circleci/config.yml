@@ -249,11 +249,11 @@ jobs:
       - run: 
           name: install aws cli with pythonn
           command: |
-            apt-get update 
-            apt-get install -y less curl unzip
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            sudo apt-get update 
+            sudo apt-get install -y less curl unzip
+            sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip -q awscliv2.zip
-            ./aws/install
+            sudo ./aws/install
       # - run: aws --version
       - run:
           name: Run migrations
