@@ -255,7 +255,9 @@ jobs:
             npm install
             # Run and save the migration output
             npm run migrations > migrations_dump.txt
-            cat migrations_dump.txt
+      - run: cat migrations_dump.txt
+      - run: cat migrations_dump.txt
+
       - run:
           name: Send migration results to memstash
           command: |   
@@ -266,19 +268,15 @@ jobs:
             fi
      # Here's where you will add some code to rollback on failure
       - run: 
-          name: innstall aws cli with pythonn
+          name: install aws cli with pythonn
           command: |
-            apt-get update && \
-            apt-get install -y \
-            python3 \
-            python3-pip \
-            python3-setuptools \
-            groff \
-            less \
-            && pip3 install --upgrade pip \
-            && apt-get clean
+            apt-get update 
+            apt-get install -y less curl unzip
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip -q awscliv2.zip
+            ./aws/install
 
-      - run: pip3 --no-cache-dir install --upgrade awscli
+      # - run: pip3 --no-cache-dir install --upgrade awscli
       - destroy-environment:
           id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
@@ -402,11 +400,9 @@ workflows:
       - run-migrations:
           requires: [configure-infrastructure]
       - deploy-frontend:
-          # requires: [run-migrations]
-          requires: [configure-infrastructure] # ! plear remove later
+          requires: [run-migrations]
       - deploy-backend:
-          # requires: [run-migrations]
-          requires: [configure-infrastructure] # ! plear remove later
+          requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
