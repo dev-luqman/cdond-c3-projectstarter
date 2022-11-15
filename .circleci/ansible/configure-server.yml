@@ -36,5 +36,10 @@
     - TYPEORM_MIGRATIONS_DIR: "{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}"
     # Add more env vars here
 
+  tasks:
+    - debug:
+      msg: "{{ansible_env}}"
+
+      
   roles:
     - deploy
