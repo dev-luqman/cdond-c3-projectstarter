@@ -12,8 +12,6 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            # delete file in s3 buckets if exit
-            aws s3 rm s3://udapeople-<< parameters.id >> --recursive
             # Delete Stack if error
             aws cloudformation delete-stack --stack-name << parameters.id >>
 
@@ -28,7 +26,7 @@ commands:
           when: on_fail
           command: |
             # delete file in s3 buckets if exit
-            aws s3 rm s3://udapeople<< parameters.id >> --recursive
+            aws s3 rm s3://udapeople-<< parameters.id >> --recursive
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -400,6 +398,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            apk add --update nodejs nodejs-npm \
             apk add --no-cache curl \
             python3 \
             py3-pip \
@@ -443,6 +442,8 @@ jobs:
           id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
           id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations: 
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
   default:
