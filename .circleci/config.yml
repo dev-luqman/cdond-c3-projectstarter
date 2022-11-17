@@ -452,7 +452,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum -y install nodejs
+            sudo yum -y install nodejs
       
       - run:
           name: Get OldWorkflow ID
@@ -541,5 +541,5 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
-      # - cleanup:
-      #     requires: [cloudfront-update]
+      - cleanup:
+          requires: [cloudfront-update]
