@@ -199,7 +199,7 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             aws cloudformation list-exports \
-             --query "Exports[?Name==\`EC2InstanceDNSName\`].Value" --no-paginate --output text >> .circleci/ansible/inventory.txt
+             --query "Exports[?Name==\`EC2InstanceDNSName-${CIRCLE_WORKFLOW_ID:0:7}\`].Value" --no-paginate --output text >> .circleci/ansible/inventory.txt
       - run: cat .circleci/ansible/inventory.txt
       - run:
           name: Install tar utility
@@ -209,10 +209,10 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      # - destroy-environment:
-      #     id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
-      # - destroy-environment:
-      #     id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+      - destroy-environment:
+          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
+      - destroy-environment:
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
   configure-infrastructure:
     docker:
@@ -308,7 +308,7 @@ jobs:
           name: Get backend url
           command: |
             export BACKEND_API=$(aws cloudformation list-exports \
-             --query "Exports[?Name==\`EC2InstanceDNSName\`].Value" --no-paginate --output text)
+             --query "Exports[?Name==\`EC2InstanceDNSName-${CIRCLE_WORKFLOW_ID:0:7}\`].Value" --no-paginate --output text)
             export API_URL="http://${BACKEND_API}:3030"
             echo "${API_URL}"
             echo API_URL="http://${BACKEND_API}:3030" >> frontend/.env
@@ -409,7 +409,7 @@ jobs:
           name: Get backend url
           command: |
             aws cloudformation list-exports \
-            --query "Exports[?Name==\`EC2InstanceDNSName\`].Value" --no-paginate --output text >> backendIpStore
+            --query "Exports[?Name==\`EC2InstanceDNSName-${CIRCLE_WORKFLOW_ID:0:7}\`].Value" --no-paginate --output text >> backendIpStore
       # - run:
       #     name: Backend smoke test.
       #     command: |
