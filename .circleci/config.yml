@@ -452,7 +452,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo yum -y install nodejs
+            yum install -y tar gzip
+            curl --silent --location https://rpm.nodesource.com/setup_10.x | bash -
+            yum -y install nodejs
       
       - run:
           name: Get OldWorkflow ID
