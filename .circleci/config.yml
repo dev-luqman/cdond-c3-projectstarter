@@ -184,16 +184,16 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
               --tags project=udapeople \
-              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}"  \
-              --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:5} 
+              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"  \
+              --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7} 
       - run:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
               --tags project=udapeople \
-              --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:5}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:5}"
+              --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
       - run: ls 
       - run:
           name: Add back-end ip to ansible inventory
@@ -209,10 +209,10 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      - destroy-environment:
-          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}
-      - destroy-environment:
-          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:5}
+      # - destroy-environment:
+      #     id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
+      # - destroy-environment:
+      #     id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
   configure-infrastructure:
     docker:
@@ -249,9 +249,9 @@ jobs:
       # ansible-playbook -i inventory configure-server.yml
       #Here's where you will add some code to rollback on 
       - destroy-environment:
-          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
   run-migrations:
     docker:
@@ -284,13 +284,13 @@ jobs:
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
               # If you are using kvdb.io, generate the bucket ID "9GE4jRtKznmVKRfvdBABBe" in your local terminal first
-              curl https://kvdb.io/WXYfE8x6ATuBiPjy2P2upo/migration_${CIRCLE_WORKFLOW_ID:0:5}  -d '1'
+              curl https://kvdb.io/WXYfE8x6ATuBiPjy2P2upo/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
      # Here's where you will add some code to rollback on failure
       - destroy-environment:
-          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
 
   deploy-frontend:
@@ -319,8 +319,8 @@ jobs:
             cd frontend
             npm install
             npm run build
-            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:5}".tar.gz dist
-            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:5} --recursive
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
       - run:
           name: Expose Frontend url (S3-bucket-url)
@@ -329,11 +329,11 @@ jobs:
              --query "Exports[?Name==\`WebsiteURL\`].Value" --no-paginate --output text 
       # Here's where you will add some code to rollback on failure
       - destroy-s3-bucketfile: 
-          id: ${CIRCLE_WORKFLOW_ID:0:5}
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
   deploy-backend:
     docker:
@@ -385,9 +385,9 @@ jobs:
             ansible-playbook -i inventory deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
       - destroy-environment:
-          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
   smoke-test:
     docker:
@@ -426,7 +426,7 @@ jobs:
       # - run:
       #     name: Frontend smoke test.
       #     command: |
-      #       export URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:5}.s3-website-us-east-1.amazonaws.com/#/employees"            
+      #       export URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
       #       echo ${URL} 
       #       if curl -s ${URL} | grep "Welcome"
       #       then
@@ -436,13 +436,13 @@ jobs:
       #       fi
       # Here's where you will add some code to rollback on failure  
       - destroy-s3-bucketfile: 
-          id: ${CIRCLE_WORKFLOW_ID:0:5}
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations: 
-          id: ${CIRCLE_WORKFLOW_ID:0:5}
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   cloudfront-update:
     docker:
@@ -472,17 +472,17 @@ jobs:
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
             --stack-name InitialStack \
-            --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:5}" \
+            --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
             --tags project=udapeople
       # Here's where you will add some code to rollback on failure 
       - destroy-s3-bucketfile: 
-          id: ${CIRCLE_WORKFLOW_ID:0:5}
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
-          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:5}
+          id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations: 
-          id: ${CIRCLE_WORKFLOW_ID:0:5} 
+          id: ${CIRCLE_WORKFLOW_ID:0:7} 
   cleanup:
     docker:
       - image: amazon/aws-cli
@@ -497,12 +497,12 @@ jobs:
             # Fetch the Old workflow ID
             export OldWorkflowID=$(cat oldWorkflowID)
             echo OldWorkflowID: "${OldWorkflowID}"
-            echo CIRCLE_WORKFLOW_ID: "${CIRCLE_WORKFLOW_ID:0:5}" 
+            echo CIRCLE_WORKFLOW_ID: "${CIRCLE_WORKFLOW_ID:0:7}" 
 
       - run:
           name: Remove old stacks and files.
           command: |
-            if [[ "${CIRCLE_WORKFLOW_ID:0:5}" =~ "${OldWorkflowID}" ]]
+            if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
             then
               aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
