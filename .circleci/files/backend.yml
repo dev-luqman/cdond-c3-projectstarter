@@ -45,3 +45,16 @@ Outputs:
     Value: !GetAtt EC2Instance.PublicIp
     Export:
       Name: !Sub EC2InstanceDNSName-${ID}
+
+
+
+OLDWORKFLOWID=3657e60
+NEWWORKFLOWID=3657e62
+echo "${OLDWORKFLOWID}"
+echo "${NEWWORKFLOWID}"
+if [[ '${OLDWORKFLOWID}' != '${NEWWORKFLOWID}' ]]
+then
+  echo "________DELETE_CONFIRMED_________"
+else
+  echo "___________CAN NOT DELETE____________"
+fi
