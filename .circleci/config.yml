@@ -503,8 +503,8 @@ jobs:
           name: Remove old stacks and files
           command: |
             OLDWORKFLOWID=$(cat oldWorkflowID)
-            echo ${OLDWORKFLOWID}
-            print ("${CIRCLE_WORKFLOW_ID:0:7}" != "${OLDWORKFLOWID}")
+            echo "${OLDWORKFLOWID}"
+            echo "${CIRCLE_WORKFLOW_ID:0:7}"
             if "${CIRCLE_WORKFLOW_ID:0:7}" != "${OLDWORKFLOWID}"
             then
               echo "________DELETE_CONFIRMED_________"
