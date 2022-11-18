@@ -504,11 +504,15 @@ jobs:
           command: |
             OLDWORKFLOWID=$(cat oldWorkflowID)
             echo ${OLDWORKFLOWID}
-            if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OLDWORKFLOWID}" ]]
+            print ("${CIRCLE_WORKFLOW_ID:0:7}" != "${OLDWORKFLOWID}")
+            if "${CIRCLE_WORKFLOW_ID:0:7}" != "${OLDWORKFLOWID}"
             then
+              echo "________DELETE_CONFIRMED_________"
               aws s3 rm "s3://udapeople-${OLDWORKFLOWID}" --recursive
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OLDWORKFLOWID}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLDWORKFLOWID}"
+            else
+              echo "___________CAN NOT DELETE____________"
             fi
           
 workflows:
