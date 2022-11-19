@@ -37,4 +37,4 @@
     # Add more env vars here
   
   roles:
-    - deploy
+    - configure-server
