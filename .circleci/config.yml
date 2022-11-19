@@ -538,9 +538,9 @@ workflows:
           requires: [build-frontend]
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          # filters:
-          #   branches:
-          #     only: [test-feature-branch]
+          filters:
+            branches:
+              only: [dev]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
@@ -555,3 +555,8 @@ workflows:
           requires: [smoke-test]
       - cleanup:
           requires: [cloudfront-update]
+
+
+
+
+          # Alert Manager Wehook url - https://hooks.slack.com/services/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
