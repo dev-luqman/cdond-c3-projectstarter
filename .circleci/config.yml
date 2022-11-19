@@ -353,7 +353,7 @@ jobs:
       - run: 
           name: Install Aws-Cli # For destroy stack command if error found
           command: |
-            apk add --no-cache \
+            apk add --no-cache curl \
             python3 \
             py3-pip \
             && pip3 install --upgrade pip \
