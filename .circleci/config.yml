@@ -69,6 +69,9 @@ jobs:
           name: Build front-end
           command: |
             cd frontend && npm run build
+      - run: exit 1
+      - revert-migrations: 
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   build-backend:
     docker:
@@ -310,6 +313,8 @@ jobs:
           id: udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
           id: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations: 
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
 
 
   deploy-frontend:
