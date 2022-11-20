@@ -73,9 +73,9 @@ jobs:
           name: Build front-end
           command: |
             cd frontend && npm run build
-      - run: exit 1
-      - revert-migrations: 
-          id: ${CIRCLE_WORKFLOW_ID:0:7}
+      # - run: exit 1
+      # - revert-migrations: 
+      #     id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   build-backend:
     docker:
@@ -272,6 +272,7 @@ jobs:
           name: install aws cli with python
           command: |
             sudo apt-get update 
+            sudo apt-get install ca-certificates
             # sudo apt-get install -y less curl unzip
             sudo apt install curl
             sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
