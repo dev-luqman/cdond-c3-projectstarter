@@ -1,0 +1,72 @@
+
+global:
+  resolve_timeout: 1m
+  slack_api_url: 'https://hooks.slack.com/services/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'
+
+route:
+  receiver: 'slack-notifications'
+
+receivers:
+- name: 'slack-notifications'
+  slack_configs:
+  - channel: '#monitory-servers'
+    send_resolved: true
+
+
+
+
+
+
+global:
+ slack_api_url: 'https://hooks.slack.com/services/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'
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1h
+  receiver: 'slack_general'
+receivers:
+- name: slack_general
+  slack_configs:
+  - channel: '#alerts'
+    send_resolved: true
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']
+
+
+
+
+
+# Email format 
+route:
+  group_by: [Alertname]
+  receiver: email-me
+
+receivers:
+- name: email-me
+  email_configs:
+  - to: EMAIL_YO_WANT_TO_SEND_EMAILS_TO
+    from: YOUR_EMAIL_ADDRESS
+    smarthost: smtp.gmail.com:587
+    auth_username: YOUR_EMAIL_ADDRESS
+    auth_identity: YOUR_EMAIL_ADDRESS
+    auth_password: YOUR_EMAIL_PASSWORD
+
+
+
+global:
+  resolve_timeout: 1m
+  slack_api_url: 'https://hooks.slack.com/services/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'
+
+route:
+  receiver: 'slack-notifications'
+
+receivers:
+- name: 'slack-notifications'
+  slack_configs:
+  - channel: '#monitory-servers'
+    send_resolved: true
