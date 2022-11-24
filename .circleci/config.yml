@@ -226,8 +226,8 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
-      # - add_ssh_keys:
-      #     fingerprints:   ["88:6f:7b:f8:06:8d:b0:ef:e6:b9:9f:b5:e9:23:c8:e0"]
+      - add_ssh_keys:
+          fingerprints:   ["88:6f:7b:f8:06:8d:b0:ef:e6:b9:9f:b5:e9:23:c8:e"]
       # attach workspace
       - attach_workspace:
           at: ~/
