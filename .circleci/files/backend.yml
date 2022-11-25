@@ -38,7 +38,7 @@ Resources:
         - Ref: InstanceSecurityGroup     
       KeyName: apacheServer # If you use another key pair name, please put here
       # Ubuntu 18 or higher works fine for your region
-      ImageId: ami-0b0dcb5067f052a63
+      ImageId: ami-08c40ec9ead489470
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
