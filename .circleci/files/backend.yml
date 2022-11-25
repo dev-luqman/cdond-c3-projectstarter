@@ -36,7 +36,7 @@ Resources:
       InstanceType: t2.micro
       SecurityGroups:
         - Ref: InstanceSecurityGroup     
-      KeyName: udacity # If you use another key pair name, please put here
+      KeyName: apacheServer # If you use another key pair name, please put here
       # Ubuntu 18 or higher works fine for your region
       ImageId: ami-0b0dcb5067f052a63
       Tags:
