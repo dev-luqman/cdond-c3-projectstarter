@@ -1,7 +1,4 @@
 
-npm update mixin-deep --depth 17
-npm update ansi-regex --depth 7 
-
 {
   "name": "glee2",
   "version": "1.0.0",
