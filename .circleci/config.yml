@@ -131,9 +131,9 @@ jobs:
           command: |
             cd frontend
             npm i
-            npm audit fix --force
             # npm install oauth-sign@^0.9.0
             npm audit --audit-level=critical
+            npm audit fix --force
       - slack/notify:
           channel: circlecialert
           event: fail
@@ -157,9 +157,9 @@ jobs:
           command: |
             cd backend
             npm i
-            npm audit fix --force
             # npm install oauth-sign@^0.9.0
             npm audit --audit-level=critical
+            npm audit fix --force
       - slack/notify:
           channel: circlecialert
           event: fail
