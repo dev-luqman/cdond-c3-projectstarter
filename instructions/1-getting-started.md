@@ -52,7 +52,7 @@ npm i
 Add a `.env` file to your `backend` folder with the following contents:
 
 ```bash
-NODE_ENV=local
+NODE_ENV=production
 VERSION=1
 TYPEORM_CONNECTION=postgres
 TYPEORM_MIGRATIONS_DIR=./src/migrations
